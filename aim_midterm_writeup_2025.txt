@@ -46,7 +46,7 @@ Describe all of your data sources and external APIs, and describe what you’ll 
 - Sketchfab 3D model API (returns lists of 3D models as json & links to model renders)
 
 Describe the default chunking strategy that you will use.  Why did you make this decision:
-Since I'm working with images only, chunking is not applicable.
+Since I'm working with images / vision only, chunking is not applicable.
 
 [Optional] Will you need specific data for any other part of your application?   If so, explain:
 No, I have all the data I need for now.
@@ -62,7 +62,7 @@ Assess your pipeline using the RAGAS framework including key metrics faithfulnes
 I created a custom way of scoring the retrieval models based on how many steps (in latent space) away the "best" model result was from the query.
 
 What conclusions can you draw about the performance and effectiveness of your pipeline with this information?
-Currently, my system returns an accuracy number, but a single accuracy number alone isn't much help.
+WIth this number, I can now gauge how close my system comes to performing "ideal" database searches.  I can measure how far different embedding models drift from that ideal.
 
 --- --- --- Task 6: Fine-Tuning Open-Source Embeddings --- --- --- 
 
@@ -83,3 +83,22 @@ Achieved a 50% accuracy on my retrieval test set
 
 This score is calculated by identifying 'ideal' search results (the best model to match the query) and then counting how many "hops" away the ideal model is from the top result.
 More hops = lower accuracy.
+
+
+Articulate the changes that you expect to make to your app in the second half of the course. How will you improve your application?
+I intend to expand my application from a simple 3D model search engine into a full 3D world builder that converts text prompts into VR worlds.
+
+
+--- --- --- Your Final Submission --- --- --- 
+
+A public (or otherwise shared) link to a GitHub repo:
+https://github.com/ben-gibbons-github/AI5_Midterm_Seek3D
+
+A public (or otherwise shared) link to the final version of your public application on Hugging Face (or other)
+https://huggingface.co/spaces/bgibbons-ai/Seek3D
+
+A public link to your fine-tuned embedding model on Hugging Face:
+N/a
+
+Loom video link:
+https://www.loom.com/share/50ac89fe306e4c23b7cc01be62d675b1?sid=4dcb994f-cebc-4b9e-937a-ef17b20d2d07
