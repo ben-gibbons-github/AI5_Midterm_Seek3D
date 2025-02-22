@@ -1,0 +1,85 @@
+ --- --- --- Task 1: Defining your Problem and Audience --- --- --- 
+
+Write a succinct 1-sentence description of the problem:
+It can be difficult to find high-quality human-made 3D models that match a prompt longer than 2 words.
+
+Write 1-2 paragraphs on why this is a problem for your specific user:
+My user is a video game-level designer who needs to quickly find high-quality 3D models to use in their game prototype.  
+The assets don't need to be a perfect match; they just need to be "good enough" to be quickly added to a game.
+
+As such, the assets need to avoid some common pitfalls:
+- They can't be awkward 3D scans that will be completely out of place in a game.
+- The assets shouldn't include lots of unrelated geometry (such as an object in a room when we want only the object)
+- The asset shouldn't be textureless, low poly
+- We should avoid uploaded AI-generated assets since AI-generated assets (for the most part) are not ready for games.
+
+ --- --- --- Task 2: Propose a Solution --- --- --- 
+
+Write 1-2 paragraphs on your proposed solution.  How will it look and feel to the user?
+My solution is a search engine that displays a list of images (with their titles & authors) to the user in the style of Google image search.  
+Clicking on any of the images takes the user to that model's page to download it.
+
+
+Describe the tools you plan to use in each part of your stack.  Write one sentence on why you made each tooling choice.
+LLM: I plan to use GPT 4o-mini as my LLM to act as a bridge between what the user is searching for and the model database.  
+
+Embedding Model: I'm going to use ViT-H/14-378 with open_clip because it offers robust image classification at low-performance costs.
+
+Orchestration:  Nothing very special is needed.  Just a Python loop that calls into my fairly simple agent search system.
+
+Vector Database:  Since the actual number of models in my system is quite low, I'm just going to use a simple numpy array and save it in a file.
+
+Monitoring: For the final version, I think analytics would be very helpful: tracking user queries & success rates.
+
+Evaluation: Compare the results of my search to a curated dataset and dock points for how far off the search results are from the ideal search result.
+
+User Interface: For the prototype, Chainlit is fine, for the final, most likely a more custom solution.
+
+Serving & Inference:  For now, Hugging Face can run everything (My model is fairly small & can run well on just a free-tier CPU)!
+
+Where will you use an agent or agents?  What will you use “agentic reasoning” for in your app?
+My app will use agents to populate my 3D model datastore by creating lists of relevant queries to existing model databases.
+
+ --- --- --- Task 3: Dealing with the Data --- --- --- 
+
+Describe all of your data sources and external APIs, and describe what you’ll use them for:
+- Sketchfab 3D model API (returns lists of 3D models as json & links to model renders)
+
+Describe the default chunking strategy that you will use.  Why did you make this decision:
+Since I'm working with images only, chunking is not applicable.
+
+[Optional] Will you need specific data for any other part of your application?   If so, explain:
+No, I have all the data I need for now.
+
+ --- --- --- Task 4: Building a Quick End-to-End Prototype --- --- --- 
+
+Build an end-to-end prototype and deploy it to a Hugging Face Space (or other endpoint):
+https://huggingface.co/spaces/bgibbons-ai/Seek3D
+
+ --- --- --- Task 5: Creating a Golden Test Data Set --- --- --- 
+
+Assess your pipeline using the RAGAS framework including key metrics faithfulness, response relevance, context precision, and context recall.  Provide a table of your output results.
+I created a custom way of scoring the retrieval models based on how many steps (in latent space) away the "best" model result was from the query.
+
+What conclusions can you draw about the performance and effectiveness of your pipeline with this information?
+Currently, my system returns an accuracy number, but a single accuracy number alone isn't much help.
+
+--- --- --- Task 6: Fine-Tuning Open-Source Embeddings --- --- --- 
+
+Swap out your existing embedding model for the new fine-tuned version.  Provide a link to your fine-tuned embedding model on the Hugging Face Hub.
+I talked to both Greg & the Wiz, and we all agreed that creating a finetuned embedding model made no sense for my particular problem.
+Instead, they suggested swapping out the embedding model with a different one & comparing performance using a golden test dataset.  
+
+ --- --- --- Task 7: Assessing Performance --- --- --- 
+
+How does the performance compare to your original RAG application?  Test the fine-tuned embedding model using the RAGAS frameworks to quantify any improvements.  Provide results in a table.
+
+So since I didn't need to finetune a model, I compared two different open clip models:
+ViT-H/14-378 (151 m params)
+Achieved a 71% accuracy on my retrieval test set
+
+ViT-B/32 (88 m params)
+Achieved a 50% accuracy on my retrieval test set
+
+This score is calculated by identifying 'ideal' search results (the best model to match the query) and then counting how many "hops" away the ideal model is from the top result.
+More hops = lower accuracy.
