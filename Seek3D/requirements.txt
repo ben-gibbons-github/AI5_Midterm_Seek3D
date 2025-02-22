@@ -1,0 +1,10 @@
+chainlit==2.2.1
+huggingface_hub==0.27.0
+numpy==2.2.3
+openai==1.63.2
+PyPDF2==3.0.1
+python-dotenv==1.0.1
+torch==2.5.1
+torchvision==0.20.1
+open-clip-torch==2.30.0
+websockets

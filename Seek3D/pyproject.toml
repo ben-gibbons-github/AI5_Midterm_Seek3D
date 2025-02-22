@@ -1,0 +1,18 @@
+[project]
+name = "Seek3D"
+version = "0.1.0"
+description = "Search for 3D models using prompts!"
+readme = "README.md"
+requires-python = "==3.12.4"
+dependencies = [
+    "chainlit==2.2.1",
+    "huggingface_hub==0.27.0",
+    "numpy==2.2.3",
+    "openai==1.63.2",
+    "PyPDF2==3.0.1",
+    "python-dotenv==1.0.1",
+    "torch==2.5.1",
+    "torchvision==0.20.1",
+    "open-clip-torch==2.30.0",
+    "websockets"
+]
